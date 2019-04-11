@@ -15,7 +15,10 @@
         }
       },
       "gatewaySubnetName": {
-        "type": "string"
+        "type": "string",
+        "metadata": {
+          "description": ""
+        }
       },
       "gatewayPublicIPName": {
         "type": "string",

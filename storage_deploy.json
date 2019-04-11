@@ -47,7 +47,9 @@
                     "bypass": "[parameters('networkAclsBypass')]",
                     "defaultAction": "[parameters('networkAclsDefaultAction')]",
                     "ipRules": [],
-                    "virtualNetworkRules": "[parameters('networkAclsVirtualNetworkRules')]"
+                    "virtualNetworkRules": {
+                        "id": "[variables('networkAclsVirtualNetworkRules')]"
+                    }
                 }
             },
             "sku": {

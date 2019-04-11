@@ -55,18 +55,6 @@
         "metadata": {
           "description": "Client root certificate data used to authenticate VPN clients."
         }
-      },
-      "revokedCertName": {
-        "type": "string",
-        "metadata": {
-          "description": "The name of revoked certificate, if any. This is a common name used to identify a given revoked certificate."
-        }
-      },
-      "revokedCertThumbprint": {
-        "type": "string",
-        "metadata": {
-          "description": "Thumbprint of the revoked certificate. This would revoke VPN client certificates matching this thumbprint from connecting to the VNet."
-        }
       }
     },
     "variables": {
@@ -140,22 +128,12 @@
                 "[parameters('vpnClientAddressPoolPrefix')]"
               ]
             },
-            "vpnClientRootCertificates": [
-              {
-                "name": "[parameters('clientRootCertName')]",
-                "properties": {
-                  "PublicCertData": "[parameters('clientRootCertData')]"
-                }
-              }
+            "vpnClientProtocols": [
+                "IkeV2",
+                "OpenVPN"
             ],
-            "vpnClientRevokedCertificates": [
-              {
-                "name": "[parameters('revokedCertName')]",
-                "properties": {
-                  "Thumbprint": "[parameters('revokedCertThumbprint')]"
-                }
-              }
-            ]
+            "vpnClientRootCertificates": [],
+            "vpnClientRevokedCertificates": []
           }
         }
       }

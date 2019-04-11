@@ -20,6 +20,12 @@
           "description": "The prefix for the GatewaySubnet where the VirtualNetworkGateway will be deployed. This must be at least /29."
         }
       },
+      "privateSubnetPrefix": {
+        "type": "string",
+        "metadata": {
+          "description": "The prefix for the privateSubnet where the VirtualNetworkGateway will be deployed. This must be at least /29."
+        }
+      },
       "gatewayPublicIPName": {
         "type": "string",
         "metadata": {
@@ -89,6 +95,12 @@
               "name": "GatewaySubnet",
               "properties": {
                 "addressPrefix": "[parameters('gatewaySubnetPrefix')]"
+              }
+            },
+            {
+              "name": "PrivateSubnet",
+              "properties": {
+                "addressPrefix": "[parameters('privateSubnetPrefix')]"
               }
             }
           ]

@@ -18,9 +18,15 @@
         "type": "string",
         "metadata": {
         "description": "The prefix for the privateSubnet where the VirtualNetworkGateway will be deployed. This must be at least /29."
+        }
     },
     "authenticationType": {
       "type": "string",
+      "defaultValue": "sshPublicKey",
+      "allowedValues": [
+        "sshPublicKey",
+        "password"
+      ],
       "metadata": {
         "description": "Type of authentication to use on the Virtual Machine. SSH key is recommended."
       }

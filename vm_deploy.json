@@ -115,6 +115,35 @@
       }
     },
     {
+        "type": "Microsoft.Network/networkInterfaces",
+        "apiVersion": "2018-12-01",
+        "name": "[variables('nicName')]",
+        "properties": {
+            "ipConfigurations": [
+                {
+                    "name": "ipconfig1",
+                    "properties": {
+                        "privateIPAddress": "10.0.0.5",
+                        "privateIPAllocationMethod": "Dynamic",
+                        "subnet": {
+                            "id": "[variables('subnetRef')]"
+                        },
+                        "primary": true,
+                        "privateIPAddressVersion": "IPv4"
+                    }
+                }
+            ],
+            "dnsSettings": {
+                "dnsServers": [],
+                "appliedDnsServers": []
+            },
+            "enableAcceleratedNetworking": false,
+            "enableIPForwarding": false,
+            "primary": true,
+            "tapConfigurations": []
+        }
+    },
+    {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2018-10-01",
       "name": "[variables('vmName')]",

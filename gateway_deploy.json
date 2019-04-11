@@ -14,12 +14,6 @@
           "description": "The prefix for the GatewaySubnet where the VirtualNetworkGateway will be deployed. This must be at least /29."
         }
       },
-      "gatewaySubnetName": {
-        "type": "string",
-        "metadata": {
-          "description": ""
-        }
-      },
       "gatewayPublicIPName": {
         "type": "string",
         "metadata": {
@@ -58,7 +52,7 @@
       }
     },
     "variables": {
-      "gatewaySubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('gatewaySubnetName'))]"
+      "gatewaySubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), 'gateway')]"
     },
     "resources": [
       {

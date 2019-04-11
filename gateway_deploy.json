@@ -1,113 +1,86 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "virtualNetworkName": {
-        "type": "string",
-        "metadata": {
-          "description": "Name of the VNet."
+        "name": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "sku": {
+            "type": "string"
+        },
+        "gatewayType": {
+            "type": "string",
+            "defaultValue": "Vpn",
+            "allowedValues": [
+                "Vpn",
+                "ExpressRoute"
+            ]
+        },
+        "vpnType": {
+            "type": "string",
+            "defaultValue": "RouteBased",
+            "allowedValues": [
+                "RouteBased",
+                "PolicyBased"
+            ]
+        },
+        "existingVirtualNetworkName": {
+            "type": "string"
+        },
+        "newSubnetName": {
+            "type": "string"
+        },
+        "subnetAddressPrefix": {
+            "type": "string"
+        },
+        "publicIpAddressId": {
+            "type": "string"
         }
-      },
-      "gatewaySubnetPrefix": {
-        "type": "string",
-        "metadata": {
-          "description": "The prefix for the GatewaySubnet where the VirtualNetworkGateway will be deployed. This must be at least /29."
-        }
-      },
-      "gatewaySubnetName": {
-        "type": "string",
-        "metadata": {
-          "description": ""
-        }
-      },
-      "gatewayPublicIPName": {
-        "type": "string",
-        "metadata": {
-          "description": "The name of the PublicIP attached to the VirtualNetworkGateway."
-        }
-      },
-      "gatewayName": {
-        "type": "string",
-        "metadata": {
-          "description": "The name of the VirtualNetworkGateway."
-        }
-      },
-      "gatewaySku": {
-        "type": "string",
-        "metadata": {
-          "description": "The Sku of the Gateway. This must be one of Basic, Standard or HighPerformance."
-        }
-      },
-      "vpnClientAddressPoolPrefix": {
-        "type": "string",
-        "metadata": {
-          "description": "The IP address range from which VPN clients will receive an IP address when connected. Range specified must not overlap with on-premise network."
-        }
-      },
-      "clientRootCertName": {
-        "type": "string",
-        "metadata": {
-          "description": "The name of the client root certificate used to authenticate VPN clients. This is a common name used to identify the root cert."
-        }
-      },
-      "clientRootCertData": {
-        "type": "string",
-        "metadata": {
-          "description": "Client root certificate data used to authenticate VPN clients."
-        }
-      }
-    },
-    "variables": {
-      "gatewaySubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('gatewaySubnetName'))]"
     },
     "resources": [
-      {
-        "apiVersion": "2018-04-01",
-        "type": "Microsoft.Network/virtualNetworkGateways",
-        "name": "[parameters('gatewayName')]",
-        "location": "[resourceGroup().location]",
-        "properties": {
-          "ipConfigurations": [
-            {
-              "properties": {
-                "privateIPAllocationMethod": "Dynamic",
-                "subnet": {
-                  "id": "[variables('gatewaySubnetRef')]"
-                },
-                "publicIPAddress": {
-                  "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('gatewayPublicIPName'))]"
-                }
-              },
-              "name": "vnetGatewayConfig"
-            }
-          ],
-          "sku": {
-            "name": "[parameters('gatewaySku')]",
-            "tier": "[parameters('gatewaySku')]"
-          },
-          "gatewayType": "Vpn",
-          "vpnType": "RouteBased",
-          "enableBgp": "false",
-          "vpnClientConfiguration": {
-            "vpnClientAddressPool": {
-              "addressPrefixes": [
-                "[parameters('vpnClientAddressPoolPrefix')]"
-              ]
-            },
-            "vpnClientProtocols": [
-                "IkeV2",
-                "OpenVPN"
+        {
+            "apiVersion": "2018-08-01",
+            "name": "[parameters('name')]",
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "Microsoft.Network/virtualNetworks/vnet01/subnets/GatewaySubnet"
             ],
-            "vpnClientRootCertificates": [
-              {
-                "name": "[parameters('clientRootCertName')]",
-                "properties": {
-                  "PublicCertData": "[parameters('clientRootCertData')]"
+            "tags": {},
+            "properties": {
+                "gatewayType": "[parameters('gatewayType')]",
+                "ipConfigurations": [
+                    {
+                        "name": "default",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[resourceId('Testing3', 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('newSubnetName'))]"
+                            },
+                            "publicIpAddress": {
+                                "id": "[parameters('publicIpAddressId')]"
+                            }
+                        }
+                    }
+                ],
+                "vpnType": "[parameters('vpnType')]",
+                "sku": {
+                    "name": "[parameters('sku')]",
+                    "tier": "[parameters('sku')]"
                 }
-              }
-            ]
-          }
+            }
+        },
+        {
+            "apiVersion": "2018-08-01",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "name": "[concat(parameters('existingVirtualNetworkName'), '/', parameters('newSubnetName'))]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressPrefix": "[parameters('subnetAddressPrefix')]"
+            }
         }
-      }
     ]
-  }
+}

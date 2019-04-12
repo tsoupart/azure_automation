@@ -1,0 +1,33 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string"
+        },
+        "existingVirtualNetworkName": {
+            "type": "string"
+        },
+        "newSubnetName": {
+            "type": "string"
+        },
+        "psqlServerName": {
+            "type": "string"
+        }
+
+    },
+    "variables": {
+      "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('newSubnetName'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.DBforPostgreSQL/servers/virtualNetworkRules",
+            "apiVersion": "2017-12-01",
+            "name": "[concat(parameters('psqlServerName'), parameters('name'))]",
+            "properties": {
+                "virtualNetworkSubnetId": "[resourceId(variables('subnetRef'))]",
+                "ignoreMissingVnetServiceEndpoint": false
+            }
+        }
+    ]
+}

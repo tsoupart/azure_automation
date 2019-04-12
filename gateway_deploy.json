@@ -40,6 +40,9 @@
             "type": "string"
         }
     },
+    "variables": {
+      "publicIPAddressesRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpAddressId'))]"
+    },
     "resources": [
         {
             "apiVersion": "2018-08-01",
@@ -61,7 +64,7 @@
                                 "id": "[resourceId('Testing3', 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('newSubnetName'))]"
                             },
                             "publicIpAddress": {
-                                "id": "[parameters('publicIpAddressId')]"
+                                "id": "[variables('publicIPAddressesRef')]"
                             }
                         }
                     }

@@ -23,7 +23,7 @@
         {
             "type": "Microsoft.DBforPostgreSQL/servers/virtualNetworkRules",
             "apiVersion": "2017-12-01",
-            "name": "[concat(parameters('psqlServerName'), parameters('name'))]",
+            "name": "[concat(parameters('psqlServerName'),'/', parameters('name'))]",
             "properties": {
                 "virtualNetworkSubnetId": "[resourceId(variables('subnetRef'))]",
                 "ignoreMissingVnetServiceEndpoint": false

@@ -64,7 +64,6 @@
                 "name": "[parameters('skuName')]",
                 "tier": "[parameters('skuTier')]",
                 "capacity": "[parameters('skuCapacity')]",
-                "size": "[parameters('skuSizeMB')]",
                 "family": "[parameters('skuFamily')]"
             },
             "type": "Microsoft.DBforPostgreSQL/servers"

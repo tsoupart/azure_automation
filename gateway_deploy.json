@@ -50,7 +50,7 @@
             "type": "Microsoft.Network/virtualNetworkGateways",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', parameters('existingVirtualNetworkName'), '/subnets', parameters('newSubnetName'))]"
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('existingVirtualNetworkName'), '/subnets/', parameters('newSubnetName'))]"
             ],
             "tags": {},
             "properties": {
@@ -61,7 +61,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "[resourceId('Testing3', 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('newSubnetName'))]"
+                                "id": "[resourceId(resourceGroup().location, 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('newSubnetName'))]"
                             },
                             "publicIpAddress": {
                                 "id": "[variables('publicIPAddressesRef')]"

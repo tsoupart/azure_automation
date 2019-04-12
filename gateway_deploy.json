@@ -38,6 +38,15 @@
         },
         "publicIpAddressId": {
             "type": "string"
+        },
+        "vpnClientAddressPoolPrefix": {
+          "type": "string"
+        },
+        "clientRootCertName": {
+          "type": "string"
+        },
+        "clientRootCertData": {
+          "type": "string"
         }
     },
     "variables": {
@@ -74,6 +83,26 @@
                 "sku": {
                     "name": "[parameters('sku')]",
                     "tier": "[parameters('sku')]"
+                },
+                "enableBgp": "false",
+                "vpnClientConfiguration": {
+                  "vpnClientAddressPool": {
+                    "addressPrefixes": [
+                      "[parameters('vpnClientAddressPoolPrefix')]"
+                    ]
+                  },
+                  "vpnClientProtocols": [
+                      "IkeV2",
+                      "OpenVPN"
+                  ],
+                  "vpnClientRootCertificates": [
+                    {
+                      "name": "[parameters('clientRootCertName')]",
+                      "properties": {
+                        "PublicCertData": "[parameters('clientRootCertData')]"
+                      }
+                    }
+                  ]
                 }
             }
         },

@@ -25,7 +25,7 @@
             "apiVersion": "2017-12-01",
             "name": "[concat(parameters('psqlServerName'),'/', parameters('name'))]",
             "properties": {
-                "virtualNetworkSubnetId": "[resourceId(variables('subnetRef'))]",
+                "virtualNetworkSubnetId": "[variables('subnetRef')]",
                 "ignoreMissingVnetServiceEndpoint": false
             }
         }

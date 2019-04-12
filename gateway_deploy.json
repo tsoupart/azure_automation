@@ -41,7 +41,8 @@
         }
     },
     "variables": {
-      "publicIPAddressesRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpAddressId'))]"
+      "publicIPAddressesRef": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIpAddressId'))]",
+      "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('newSubnetName'))]"
     },
     "resources": [
         {
@@ -61,7 +62,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "[resourceId('automated-test2','Microsoft.Network/virtualNetworks/subnets', parameters('existingVirtualNetworkName'), parameters('newSubnetName'))]"
+                                "id": "[variables('subnetRef')]"
                             },
                             "publicIpAddress": {
                                 "id": "[variables('publicIPAddressesRef')]"

@@ -50,7 +50,7 @@
             "type": "Microsoft.Network/virtualNetworkGateways",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "Microsoft.Network/virtualNetworks/vnet01/subnets/GatewaySubnet"
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('existingVirtualNetworkName'), '/subnets', parameters('newSubnetName'))]"
             ],
             "tags": {},
             "properties": {

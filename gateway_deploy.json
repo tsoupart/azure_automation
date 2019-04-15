@@ -92,8 +92,7 @@
                     ]
                   },
                   "vpnClientProtocols": [
-                      "IkeV2",
-                      "OpenVPN"
+                      "IkeV2"
                   ],
                   "vpnClientRootCertificates": [
                     {
